@@ -47,6 +47,7 @@ public class DotRaceArrayList extends JPanel {
       while (k < racerCount) {
          Dot aDotObject = new Dot(randomName(), k, randomColor(), defaultDiameter);
          // FINISH THIS -- insert the Dot object to the dots ArrayList
+         dots.add(aDotObject);
 
       }
    }
@@ -71,6 +72,15 @@ public class DotRaceArrayList extends JPanel {
 
    public double distanceWon(Dot winner){
        //FINISH THIS: loop over dots list...
+       int i = 0;
+       int distance = winner.getDistance()-dots.get(i).getDistance();
+       while(i < dots.size()){
+         if (distance > winner.getDistance() - dots.get(i).getDistance()){
+            distance = winner.getDistance() - dots.get(i).getDistance();
+         }
+         i++;
+       }
+       return distance;
        //find the second place Dot
        // subtract the winner distance from second place      
    
@@ -80,6 +90,7 @@ public class DotRaceArrayList extends JPanel {
    private Dot whoMoves() {
       int d = randGen.nextInt(dots.size()); // a number between 0 and one less than the number of dots
       // FINISH THIS: return the Dot pointed to by 'd'
+      return dots.get(d);
  
    }
    
@@ -116,6 +127,12 @@ public class DotRaceArrayList extends JPanel {
    // Draw all of the Dot objects
    public void drawRacers(Graphics g) {
       // FINISH THIS -- call drawRacer() for each Dot in dots
+      int i = 0;
+      while (i < dots.size()){
+         drawRacer(dots.get(i), g);
+         i++;
+      }
+
       
    }
 
@@ -166,7 +183,11 @@ public class DotRaceArrayList extends JPanel {
    // returns a random element from the someNames ArrayList
    public String randomName() {
       //FINISH THIS: MAKE SURE IT NEVER REPEATS until all used
-      return someNames.get(randGen.nextInt(someNames.size()));
+      int n = randGen.nextInt(someNames.size()); 
+      // need to make another list that stores all of the names we have already used
+      // then check to see if new randomly generated name has already been used
+      // if it hasn't, return that name, if it has, randomly generate again
+      return someNames.get(n);
    }
 
    ArrayList<Color> someColors = new ArrayList<Color>() {
