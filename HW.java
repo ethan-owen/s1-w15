@@ -9,7 +9,19 @@ public class HW{
     //For example, “xxxxyzz” should return 3 and “aaaaaaa” should return 3.
     // write a tester that tests various cases : 0 runs, 1 run, etc.
     public int twoRunCounter(String x){
-        return -1;
+        int i = 0;
+        int count = 0;
+        String letter = "";
+        while (i < x.length()){
+            if(x.substring(i, i+1).equals(letter)){
+                count ++;
+                letter = "";
+            } else {
+                letter = x.substring(i, i+1);
+            }
+            i++;
+        }
+        return count;
     }
 
     //You should use this method in the numGuesser0to100 
@@ -25,17 +37,18 @@ public class HW{
     //Uncomment the code below and figure out what should go in each set
     //of underscores.
     public void numGuesser0to100(){
-		// Random r = new Random();
-		// int numGuesses = ______;
-		// int numToGuess =   ______.nextInt(______);
-		// while(______!= ______){
-        //      ______++;
-		// }
-        // System.out.println("Congratulations! " + ______ + " was the correct number! You guessed it in " +  ______  );
-        // if(______ == 1)
-		// 	System.out.print(" try!");
-		// else
-		// 	System.out.print(" tries!");
+		Random r = new Random();
+		int numGuesses = 0;
+		int numToGuess =   r.nextInt(101);
+		while(askForNum() != numToGuess){
+              numGuesses++;
+		}
+        System.out.println("Congratulations! " + numToGuess + " was the correct number! You guessed it in " +  numGuesses);
+        if(numGuesses == 1) {
+		    System.out.print(" try!");
+        }else{
+		    System.out.print(" tries!");
+        }
 	}
 
 
