@@ -48,6 +48,7 @@ public class DotRaceArrayList extends JPanel {
          Dot aDotObject = new Dot(randomName(), k, randomColor(), defaultDiameter);
          // FINISH THIS -- insert the Dot object to the dots ArrayList
          dots.add(aDotObject);
+         k++;
 
       }
    }
@@ -72,17 +73,19 @@ public class DotRaceArrayList extends JPanel {
 
    public double distanceWon(Dot winner){
        //FINISH THIS: loop over dots list...
-       int i = 0;
-       int distance = winner.getDistance()-dots.get(i).getDistance();
-       while(i < dots.size()){
-         if (distance > winner.getDistance() - dots.get(i).getDistance()){
-            distance = winner.getDistance() - dots.get(i).getDistance();
-         }
-         i++;
-       }
-       return distance;
        //find the second place Dot
-       // subtract the winner distance from second place      
+       // subtract the winner distance from second place   
+       Dot second = dots.get(0);
+       if(winner == second){
+         second = dots.get(1);
+       }
+       for(Dot d: dots){
+         if (winner != second && (d.getDistance() < second.getDistance())){
+            second = d;
+         }
+       } 
+       return winner.getDistance() - second.getDistance(); 
+       
    
    }
    
@@ -127,10 +130,8 @@ public class DotRaceArrayList extends JPanel {
    // Draw all of the Dot objects
    public void drawRacers(Graphics g) {
       // FINISH THIS -- call drawRacer() for each Dot in dots
-      int i = 0;
-      while (i < dots.size()){
-         drawRacer(dots.get(i), g);
-         i++;
+      for(int i=0 ; i<dots.size(); i++){
+         this.drawRacer(dots.get(i),g);
       }
 
       
@@ -180,10 +181,17 @@ public class DotRaceArrayList extends JPanel {
       }
    };
 
+   ArrayList<String> usedNames = new ArrayList<>(){
+      {
+      }
+   };
+
    // returns a random element from the someNames ArrayList
    public String randomName() {
       //FINISH THIS: MAKE SURE IT NEVER REPEATS until all used
-      int n = randGen.nextInt(someNames.size()); 
+      int n = randGen.nextInt(someNames.size());
+      
+      
       // need to make another list that stores all of the names we have already used
       // then check to see if new randomly generated name has already been used
       // if it hasn't, return that name, if it has, randomly generate again
@@ -204,11 +212,20 @@ public class DotRaceArrayList extends JPanel {
          add(Color.pink);
       }
    };
+   ArrayList<Color> takenColors = new ArrayList<Color>();
 
    // returns a random element from the someColors ArrayList
    public Color randomColor() {
        //FINISH THIS: MAKE SURE IT NEVER REPEATS until all used
-      return someColors.get(randGen.nextInt(someColors.size()));
+      Color c1 = someColors.remove(randGen.nextInt(someColors.size()));
+      takenColors.add(c1);
+      if (someColors.size()==0){
+         while(takenColors.size()>0){
+            Color c2 = takenColors.remove(0);
+            someColors.add(c2);
+         }
+      }
+      return c1;
    }
 
    
